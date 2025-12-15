@@ -1,796 +1,249 @@
 <!DOCTYPE html>
 <html lang="id">
     <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <title>Opening — Happy Seventeen Days</title>
-        <style>
-            :root {
-                --bg-1: #fff7fb;
-                --bg-2: #ffdff0;
-                --card: rgba(255, 255, 255, 0.8);
-                --accent: #5b2b57;
-            }
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-            html,
-            body {
-                height: 100%;
-                font-family: Inter, system-ui, -apple-system, sans-serif;
-                overflow: hidden;
-                position: fixed;
-                width: 100%;
-            }
-            body {
-                background: linear-gradient(180deg, var(--bg-1), var(--bg-2));
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                overflow: hidden;
-                position: relative;
-            }
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="shortcut icon"
+            href="asset/img/LUVV/tiaracu.jpg"
+            type="image/x-icon"
+        />
 
-            /* Decorative elements */
-            body::before {
-                content: "";
-                position: absolute;
-                top: -50%;
-                left: -50%;
-                width: 200%;
-                height: 200%;
-                background-image: radial-gradient(
-                        circle at 20% 30%,
-                        rgba(255, 182, 193, 0.15) 0%,
-                        transparent 50%
-                    ),
-                    radial-gradient(
-                        circle at 80% 70%,
-                        rgba(255, 215, 250, 0.15) 0%,
-                        transparent 50%
-                    ),
-                    radial-gradient(
-                        circle at 40% 80%,
-                        rgba(255, 240, 245, 0.2) 0%,
-                        transparent 40%
-                    );
-                animation: float 20s ease-in-out infinite;
-                pointer-events: none;
-            }
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Happy+Monkey&display=swap"
+            rel="stylesheet"
+        />
 
-            @keyframes float {
-                0%,
-                100% {
-                    transform: translate(0, 0) rotate(0deg);
-                }
-                50% {
-                    transform: translate(30px, -30px) rotate(5deg);
-                }
-            }
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+            rel="stylesheet"
+        />
 
-            /* Confetti background */
-            .confetti {
-                position: absolute;
-                width: 10px;
-                height: 10px;
-                background: #ffd86b;
-                position: absolute;
-                opacity: 0.6;
-                animation: fall linear infinite;
-            }
+        <!-- Font Awesome for Icons -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
 
-            @keyframes fall {
-                to {
-                    transform: translateY(100vh) rotate(360deg);
-                    opacity: 0;
-                }
-            }
-
-            .stage {
-                position: relative;
-                width: 100%;
-                height: 100vh;
-                height: 100dvh;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                overflow: hidden;
-            }
-
-            .card-surface {
-                width: 90%;
-                max-width: 980px;
-                height: 80vh;
-                height: 80dvh;
-                max-height: 90%;
-                background: var(--card);
-                border-radius: 18px;
-                box-shadow: 0 14px 50px rgba(0, 0, 0, 0.12);
-                position: relative;
-                backdrop-filter: blur(6px);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                overflow: hidden;
-            }
-
-            /* Decorative corners */
-            .card-surface::before,
-            .card-surface::after {
-                content: "✨";
-                position: absolute;
-                font-size: 40px;
-                opacity: 0.4;
-                animation: sparkle 3s ease-in-out infinite;
-            }
-
-            .card-surface::before {
-                top: 30px;
-                left: 30px;
-            }
-
-            .card-surface::after {
-                top: 30px;
-                right: 30px;
-                animation-delay: 1.5s;
-            }
-
-            @keyframes sparkle {
-                0%,
-                100% {
-                    transform: scale(1) rotate(0deg);
-                    opacity: 0.4;
-                }
-                50% {
-                    transform: scale(1.2) rotate(180deg);
-                    opacity: 0.7;
-                }
-            }
-
-            /* Bottom decorative elements */
-            .decoration-bottom {
-                position: absolute;
-                bottom: 30px;
-                display: flex;
-                gap: 15px;
-                font-size: 35px;
-                opacity: 0.4;
-            }
-
-            .decoration-bottom.left {
-                left: 30px;
-            }
-
-            .decoration-bottom.right {
-                right: 30px;
-            }
-
-            .content-wrapper {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 80px;
-                position: relative;
-            }
-
-            /* Message positioned above candle */
-            .message {
-                opacity: 0;
-                transform: translateY(20px);
-                transition: opacity 0.6s ease, transform 0.6s ease;
-            }
-            .message.show {
-                opacity: 1;
-                transform: translateY(0);
-            }
-
-            /* Candle wrapper */
-            .candle-wrap {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 14px;
-                outline: none;
-                cursor: pointer;
-            }
-
-            .candle-card {
-                width: 220px;
-                height: 260px;
-                border-radius: 22px;
-                background: linear-gradient(180deg, #fff3d6, #fff);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                position: relative;
-                box-shadow: 0 18px 40px rgba(91, 43, 87, 0.06);
-                transition: transform 0.22s ease, box-shadow 0.5s ease;
-            }
-            .candle-card:active {
-                transform: scale(0.98);
-            }
-            .candle-card.lit {
-                box-shadow: 0 28px 120px rgba(255, 120, 120, 0.16),
-                    inset 0 -10px 26px rgba(255, 220, 160, 0.12);
-            }
-
-            /* Flame animation */
-            .flame {
-                position: absolute;
-                top: 20px;
-                left: 50%;
-                transform: translateX(-50%) scale(0);
-                opacity: 0;
-                pointer-events: none;
-                filter: drop-shadow(0 8px 22px rgba(255, 150, 80, 0.28));
-                z-index: 10;
-                width: 40px;
-                height: 50px;
-            }
-            .candle-card.lit .flame {
-                animation: flame-appear 0.5s cubic-bezier(0.2, 0.9, 0.2, 1)
-                        forwards,
-                    flame-flicker 900ms 0.5s infinite;
-            }
-
-            /* Flame glow effect */
-            .flame-glow {
-                position: absolute;
-                top: 40px;
-                left: 50%;
-                width: 100px;
-                height: 100px;
-                background: radial-gradient(
-                    circle,
-                    rgba(255, 200, 100, 0.4) 0%,
-                    transparent 70%
-                );
-                transform: translate(-50%, -50%);
-                opacity: 0;
-                pointer-events: none;
-                z-index: 9;
-            }
-            .candle-card.lit .flame-glow {
-                animation: glow-pulse 2s ease-in-out 0.3s infinite;
-            }
-
-            @keyframes flame-appear {
-                0% {
-                    opacity: 0;
-                    transform: translateX(-50%) translateY(10px) scale(0.3);
-                }
-                60% {
-                    opacity: 1;
-                    transform: translateX(-50%) translateY(-5px) scale(1.15);
-                }
-                100% {
-                    opacity: 1;
-                    transform: translateX(-50%) translateY(0) scale(1);
-                }
-            }
-            @keyframes flame-flicker {
-                0%,
-                100% {
-                    transform: translateX(-50%) translateY(0) scale(1)
-                        rotate(-2deg);
-                    filter: drop-shadow(0 8px 22px rgba(255, 150, 80, 0.28));
-                }
-                25% {
-                    transform: translateX(-51%) translateY(-3px) scale(1.05)
-                        rotate(1deg);
-                    filter: drop-shadow(0 10px 26px rgba(255, 150, 80, 0.35));
-                }
-                50% {
-                    transform: translateX(-49%) translateY(2px) scale(1.08)
-                        rotate(-1deg);
-                    filter: drop-shadow(0 12px 30px rgba(255, 150, 80, 0.4));
-                }
-                75% {
-                    transform: translateX(-50%) translateY(-2px) scale(1.03)
-                        rotate(2deg);
-                    filter: drop-shadow(0 9px 24px rgba(255, 150, 80, 0.32));
-                }
-            }
-
-            @keyframes glow-pulse {
-                0%,
-                100% {
-                    opacity: 0.4;
-                    transform: translate(-50%, -50%) scale(1);
-                }
-                50% {
-                    opacity: 0.7;
-                    transform: translate(-50%, -50%) scale(1.3);
-                }
-            }
-
-            .hint {
-                font-size: 13px;
-                color: #8b5a76;
-                text-align: center;
-            }
-
-            /* Canvas for particles */
-            #particleCanvas {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-            }
-
-            /* Loading overlay */
-            #loading {
-                position: fixed;
-                inset: 0;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: rgba(255, 255, 255, 0.35);
-                backdrop-filter: blur(6px);
-                z-index: 60;
-                transition: opacity 0.45s ease;
-            }
-            #loading.hidden {
-                opacity: 0;
-                pointer-events: none;
-            }
-            #loading .box {
-                background: rgba(255, 255, 255, 0.7);
-                padding: 22px 28px;
-                border-radius: 12px;
-                box-shadow: 0 6px 30px rgba(0, 0, 0, 0.08);
-                display: flex;
-                align-items: center;
-                gap: 12px;
-            }
-            #loading .dot {
-                width: 10px;
-                height: 10px;
-                border-radius: 50%;
-                background: var(--accent);
-                animation: ld 1s infinite;
-            }
-            @keyframes ld {
-                0%,
-                100% {
-                    transform: translateY(0);
-                }
-                50% {
-                    transform: translateY(-6px);
-                }
-            }
-
-            /* Page fade */
-            .page-fade {
-                transition: opacity 0.6s ease;
-                opacity: 0;
-            }
-
-            /* Responsive */
-            @media (max-width: 600px) {
-                body {
-                    overflow: hidden;
-                    position: fixed;
-                    width: 100%;
-                    height: 100%;
-                }
-                .card-surface {
-                    width: 95%;
-                    height: 85vh;
-                    height: 85dvh;
-                }
-                .candle-card {
-                    width: 180px;
-                    height: 220px;
-                }
-                .content-wrapper {
-                    gap: 60px;
-                }
-                .message svg {
-                    width: 350px;
-                    height: 120px;
-                }
-                .message svg text {
-                    font-size: 22px;
-                }
-                .card-surface::before,
-                .card-surface::after {
-                    font-size: 30px;
-                    top: 20px;
-                }
-                .card-surface::before {
-                    left: 20px;
-                }
-                .card-surface::after {
-                    right: 20px;
-                }
-                .decoration-bottom {
-                    font-size: 28px;
-                    bottom: 20px;
-                }
-                .decoration-bottom.left {
-                    left: 20px;
-                }
-                .decoration-bottom.right {
-                    right: 20px;
-                }
-            }
-        </style>
+        <link rel="stylesheet" href="style/style.css" />
+        <title>SweetSeventenn Kakakk — Happy Birthday</title>
     </head>
     <body>
-        <div id="loading">
-            <div class="box">
-                <div class="dot"></div>
-                <div style="font-weight: 600; color: #5b2b57">Loading...</div>
-            </div>
-        </div>
+        <!-- Decorative Flowers Background -->
+        <svg class="flower-decoration top-left" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="15" fill="#ffd700" />
+            <circle cx="50" cy="30" r="10" fill="#ff69b4" />
+            <circle cx="70" cy="50" r="10" fill="#ff69b4" />
+            <circle cx="50" cy="70" r="10" fill="#ff69b4" />
+            <circle cx="30" cy="50" r="10" fill="#ff69b4" />
+            <circle cx="35" cy="35" r="10" fill="#ff69b4" />
+            <circle cx="65" cy="35" r="10" fill="#ff69b4" />
+            <circle cx="65" cy="65" r="10" fill="#ff69b4" />
+            <circle cx="35" cy="65" r="10" fill="#ff69b4" />
+        </svg>
 
-        <main class="stage">
-            <section class="card-surface">
-                <div class="content-wrapper">
-                    <!-- Message above -->
-                    <svg
-                        class="message"
-                        width="520"
-                        height="160"
-                        viewBox="0 0 520 160"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <defs>
-                            <path id="curve" d="M60 110 Q260 20 460 110" />
-                        </defs>
+        <svg class="flower-decoration top-right" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="15" fill="#ffb6c1" />
+            <ellipse cx="50" cy="25" rx="12" ry="15" fill="#ffc0cb" />
+            <ellipse cx="75" cy="50" rx="15" ry="12" fill="#ffc0cb" />
+            <ellipse cx="50" cy="75" rx="12" ry="15" fill="#ffc0cb" />
+            <ellipse cx="25" cy="50" rx="15" ry="12" fill="#ffc0cb" />
+        </svg>
+
+        <svg class="flower-decoration bottom-left" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="12" fill="#fff8dc" />
+            <path d="M50,30 Q45,35 50,40 Q55,35 50,30" fill="#dda0dd" />
+            <path d="M70,50 Q65,45 60,50 Q65,55 70,50" fill="#dda0dd" />
+            <path d="M50,70 Q55,65 50,60 Q45,65 50,70" fill="#dda0dd" />
+            <path d="M30,50 Q35,55 40,50 Q35,45 30,50" fill="#dda0dd" />
+            <path d="M62,38 Q58,42 62,46 Q66,42 62,38" fill="#dda0dd" />
+            <path d="M62,62 Q66,58 62,54 Q58,58 62,62" fill="#dda0dd" />
+            <path d="M38,62 Q42,66 46,62 Q42,58 38,62" fill="#dda0dd" />
+            <path d="M38,38 Q42,34 46,38 Q42,42 38,38" fill="#dda0dd" />
+        </svg>
+
+        <svg class="flower-decoration bottom-right" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="15" fill="#ffeb3b" />
+            <circle cx="50" cy="28" r="11" fill="#ffa726" />
+            <circle cx="72" cy="50" r="11" fill="#ffa726" />
+            <circle cx="50" cy="72" r="11" fill="#ffa726" />
+            <circle cx="28" cy="50" r="11" fill="#ffa726" />
+            <circle cx="36" cy="36" r="11" fill="#ffa726" />
+            <circle cx="64" cy="36" r="11" fill="#ffa726" />
+            <circle cx="64" cy="64" r="11" fill="#ffa726" />
+            <circle cx="36" cy="64" r="11" fill="#ffa726" />
+        </svg>
+
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="photo-card">
+                <div class="photo-frame">
+                    <!-- Sticker decoration -->
+                    <svg class="sticker" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="40" fill="#ffb6c1" />
                         <text
-                            font-family="Inter, Arial"
-                            font-size="28"
-                            font-weight="700"
-                            fill="#5b2b57"
+                            x="50"
+                            y="65"
+                            font-size="50"
                             text-anchor="middle"
+                            fill="white"
                         >
-                            <textPath href="#curve" startOffset="50%">
-                                Happy Seventeen Days🎉
-                            </textPath>
+                            💖
                         </text>
                     </svg>
 
-                    <!-- Candle below -->
-                    <div class="candle-wrap" id="candleWrap" tabindex="0">
-                        <div class="candle-card" id="candleCard">
-                            <div class="flame-glow"></div>
-                            <svg
-                                width="140"
-                                height="190"
-                                viewBox="0 0 140 190"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M20 70 C28 56,50 56,70 70 C90 84,110 60,120 70 L120 160 C120 172,110 182,98 182 L42 182 C30 182,20 172,20 160 Z"
-                                    fill="#fff6e6"
-                                />
-                                <rect
-                                    x="44"
-                                    y="72"
-                                    width="52"
-                                    height="88"
-                                    rx="8"
-                                    fill="#ffd3c7"
-                                    stroke="#ffb8a0"
-                                />
-                                <rect
-                                    x="68"
-                                    y="56"
-                                    width="4"
-                                    height="12"
-                                    rx="2"
-                                    fill="#4a2b2b"
-                                />
-
-                                <defs>
-                                    <linearGradient
-                                        id="g1"
-                                        x1="0%"
-                                        y1="0%"
-                                        x2="0%"
-                                        y2="100%"
-                                    >
-                                        <stop
-                                            offset="0%"
-                                            stop-color="#ff4500"
-                                        />
-                                        <stop
-                                            offset="50%"
-                                            stop-color="#ff8c00"
-                                        />
-                                        <stop
-                                            offset="100%"
-                                            stop-color="#ffa500"
-                                        />
-                                    </linearGradient>
-                                    <linearGradient
-                                        id="g2"
-                                        x1="0%"
-                                        y1="0%"
-                                        x2="0%"
-                                        y2="100%"
-                                    >
-                                        <stop
-                                            offset="0%"
-                                            stop-color="#ffff00"
-                                        />
-                                        <stop
-                                            offset="100%"
-                                            stop-color="#ffa500"
-                                        />
-                                    </linearGradient>
-                                    <linearGradient
-                                        id="g3"
-                                        x1="0%"
-                                        y1="0%"
-                                        x2="0%"
-                                        y2="100%"
-                                    >
-                                        <stop
-                                            offset="0%"
-                                            stop-color="#ffffff"
-                                        />
-                                        <stop
-                                            offset="100%"
-                                            stop-color="#ffff99"
-                                        />
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-
-                            <!-- Flame as separate SVG for better positioning control -->
-                            <svg
-                                class="flame"
-                                id="flameGroup"
-                                width="40"
-                                height="50"
-                                viewBox="50 0 40 60"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <!-- Outer flame -->
-                                <path
-                                    d="M70 54 C74 42,88 38,84 24 C80 10,70 12,70 12 C70 12,60 10,56 24 C52 38,66 42,70 54 Z"
-                                    fill="url(#f1)"
-                                    opacity="0.95"
-                                />
-
-                                <!-- Inner flame -->
-                                <path
-                                    d="M70 50 C73 42,82 40,80 28 C78 18,70 20,70 20 C70 20,62 18,60 28 C58 40,67 42,70 50 Z"
-                                    fill="url(#f2)"
-                                    opacity="0.98"
-                                />
-
-                                <defs>
-                                    <linearGradient
-                                        id="f1"
-                                        x1="0%"
-                                        y1="0%"
-                                        x2="0%"
-                                        y2="100%"
-                                    >
-                                        <stop
-                                            offset="0%"
-                                            stop-color="#fff59b"
-                                        />
-                                        <stop
-                                            offset="60%"
-                                            stop-color="#ffb86b"
-                                        />
-                                        <stop
-                                            offset="100%"
-                                            stop-color="#ff7b3a"
-                                        />
-                                    </linearGradient>
-                                    <linearGradient
-                                        id="f2"
-                                        x1="0%"
-                                        y1="0%"
-                                        x2="0%"
-                                        y2="100%"
-                                    >
-                                        <stop offset="0%" stop-color="#fff" />
-                                        <stop
-                                            offset="100%"
-                                            stop-color="#ffd56a"
-                                        />
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-                        </div>
-                        <div class="hint">Nyalainn lilinnya diklik</div>
+                    <!-- Main Photo -->
+                    <div class="main-photo">
+                        <img src="asset/img/main.jpeg" alt="Birthday Photo" />
                     </div>
                 </div>
 
-                <!-- Decorative elements -->
-                <div class="decoration-bottom left">
-                    <span style="animation-delay: 0s">🎈</span>
-                    <span style="animation-delay: 0.5s">🎁</span>
-                </div>
-                <div class="decoration-bottom right">
-                    <span style="animation-delay: 0.3s">🎊</span>
-                    <span style="animation-delay: 0.8s">🎂</span>
-                </div>
+                <div class="headline" id="headline"></div>
+                <div class="subtitle">Have a wonderful day! 🎉</div>
+            </div>
 
-                <canvas id="particleCanvas"></canvas>
+            <!-- Decorative Image -->
+            <img
+                src="asset/img/pausBlue.png"
+                alt="Decoration"
+                class="hero-decoration"
+            />
+        </section>
+
+        <!-- Content Section -->
+        <div class="content-section">
+            <!-- Music Player -->
+            <section class="music-section">
+                <h2>🎶 Lagu</h2>
+                <h3>Tor Monitor Ketua🫡</h3>
+                <audio id="bgMusic" controls loop>
+                    <source src="asset/sound/sound1.mpeg" type="audio/mp3" />
+                </audio>
+                <h3>Tabola bale</h3>
+                <audio id="bgMusic" controls loop>
+                    <source
+                        src="asset/sound/Tabola Bale - Silet Open Up (Lyrics).mp3"
+                        type="audio/mp3"
+                    />
+                </audio>
             </section>
-        </main>
 
-        <script>
-            const candleCard = document.getElementById("candleCard");
-            const candleWrap = document.getElementById("candleWrap");
-            const message = document.querySelector(".message");
-            const particleCanvas = document.getElementById("particleCanvas");
-            const loading = document.getElementById("loading");
-            let clicked = false;
+            <!-- Photo Gallery -->
+            <section class="photo-gallery">
+                <div class="gallery-item">
+                    <div class="gallery-photo">
+                        <img src="asset/img/dede.jpeg" alt="" />
+                    </div>
+                    <p class="gallery-caption">dedee🥰</p>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-photo">
+                        <img src="asset/img/kapannih.jpeg" alt="" />
+                    </div>
+                    <p class="gallery-caption">
+                        hehehehe, ketemu ini kemarin", kapan coba nihh
+                    </p>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-photo">
+                        <img src="asset/img/imutt.jpeg" alt="" />
+                    </div>
+                    <p class="gallery-caption">cutee</p>
+                </div>
 
-            const flameSound = new Audio("asset/sound/liln.mp3");
-            flameSound.preload = "auto";
+                <div class="gallery-item">
+                    <div class="gallery-photo">
+                        <img src="asset/img/school.jpeg" alt="" />
+                    </div>
+                    <p class="gallery-caption">Semangatt Sekolahnyaa</p>
+                </div>
+            </section>
 
-            // Create floating confetti
-            function createConfetti() {
-                const colors = [
-                    "#ffd86b",
-                    "#ffd1ea",
-                    "#ffb1c7",
-                    "#b8e6ff",
-                    "#d4f4dd",
-                ];
-                const isMobile = window.innerWidth < 768;
-                const count = isMobile ? 8 : 15; // Kurangi di mobile
+            <!-- Message Card -->
+            <a href="buku-ucapan.html" class="wish-card">
+                <div class="wish-icon">
+                    <i class="fa-solid fa-envelope-open-text"></i>
+                </div>
+                <div class="wish-content">
+                    <h3>Message</h3>
+                    <!-- <p>
+                        Temukan pesan manis dan doa dari teman-teman tersayang 💖
+                    </p> -->
+                </div>
+            </a>
 
-                for (let i = 0; i < count; i++) {
-                    const confetti = document.createElement("div");
-                    confetti.className = "confetti";
-                    confetti.style.left = Math.random() * 100 + "%";
-                    confetti.style.backgroundColor =
-                        colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.animationDuration =
-                        Math.random() * 3 + 5 + "s";
-                    confetti.style.animationDelay = Math.random() * 5 + "s";
-                    confetti.style.width = Math.random() * 8 + 6 + "px";
-                    confetti.style.height = Math.random() * 8 + 6 + "px";
-                    confetti.style.borderRadius =
-                        Math.random() > 0.5 ? "50%" : "0";
-                    document.body.appendChild(confetti);
-                }
-            }
+            <!-- Spotify Playlist Section -->
+            <section class="playlist-section">
+                <h1>🎵 Playlist</h1>
+                <iframe
+                    data-testid="embed-iframe"
+                    style="border-radius: 12px"
+                    src="https://open.spotify.com/embed/playlist/0nVARLvgOjEWO82Fwe2UMq?utm_source=generator"
+                    width="100%"
+                    height="352"
+                    frameborder="0"
+                    allowfullscreen=""
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"
+                ></iframe>
+            </section>
+            <h2
+                style="
+                    background-color: white;
+                    padding: 0px 5px;
+                    display: inline-block;
+                "
+            >
+                Baruu nih playlistnyaa, baru 3😅
+            </h2>
 
-            createConfetti();
+            <!-- Birthday SVG Footer -->
+            <!-- <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 600 120"
+                width="100%"
+                height="auto"
+                class="birthday-footer-svg"
+            >
+                <rect width="600" height="120" fill="#fff9f9" />
+                <text
+                    x="50%"
+                    y="65"
+                    text-anchor="middle"
+                    font-family="Great Vibes, cursive"
+                    font-size="50"
+                    fill="#f06292"
+                >
+                    Happy Birthday
+                </text>
+                <path
+                    d="M80 90 Q300 130 520 90"
+                    fill="none"
+                    stroke="#f8bbd0"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                />
+                <circle cx="80" cy="90" r="5" fill="#f06292" />
+                <circle cx="520" cy="90" r="5" fill="#f06292" />
+            </svg>
+        </div> -->
 
-            // Canvas setup
-            function setupCanvas() {
-                const rect =
-                    particleCanvas.parentElement.getBoundingClientRect();
-                const dpr = window.devicePixelRatio || 1;
-                particleCanvas.width = rect.width * dpr;
-                particleCanvas.height = rect.height * dpr;
-                const ctx = particleCanvas.getContext("2d");
-                ctx.scale(dpr, dpr);
-            }
+            <div class="card-akhir"">
+            <img class="akhir" src="asset/img/birthday.png" />
+        </div>
+        <!-- Floating Particle Button -->
+        <button id="rainBtn" class="rain-btn">✨ Klik Aku</button>
 
-            // Particle system
-            const particles = [];
-            function spawnParticles(x, y) {
-                const colors = [
-                    "#ffd86b",
-                    "#fff7c2",
-                    "#ffd1ea",
-                    "#ffb1c7",
-                    "#ffffff",
-                ];
-                const isMobile = window.innerWidth < 768;
-                const count = isMobile ? 20 : 36; // Kurangi di mobile
+        <!-- Particle Area -->
+        <div id="particle-area"></div>
 
-                for (let i = 0; i < count; i++) {
-                    const angle = Math.random() * Math.PI * 2;
-                    const speed = 1 + Math.random() * 3;
-                    particles.push({
-                        x,
-                        y,
-                        vx: Math.cos(angle) * speed,
-                        vy: Math.sin(angle) * speed - Math.random() * 0.6,
-                        life: 800 + Math.random() * 700,
-                        age: 0,
-                        size: 2 + Math.random() * 3,
-                        color: colors[
-                            Math.floor(Math.random() * colors.length)
-                        ],
-                        sparkle: Math.random() > 0.6,
-                    });
-                }
-            }
-
-            let lastTime = 0;
-            function animateParticles(t) {
-                if (!lastTime) lastTime = t;
-                const dt = t - lastTime;
-                lastTime = t;
-                const ctx = particleCanvas.getContext("2d");
-                const rect =
-                    particleCanvas.parentElement.getBoundingClientRect();
-                ctx.clearRect(0, 0, rect.width, rect.height);
-
-                for (let i = particles.length - 1; i >= 0; i--) {
-                    const p = particles[i];
-                    p.age += dt;
-                    if (p.age >= p.life) {
-                        particles.splice(i, 1);
-                        continue;
-                    }
-                    p.vy += 0.002 * dt;
-                    p.x += p.vx * (dt / 16);
-                    p.y += p.vy * (dt / 16);
-                    const alpha = 1 - p.age / p.life;
-                    ctx.globalAlpha = alpha;
-
-                    if (p.sparkle) {
-                        ctx.fillStyle = "#fff";
-                        ctx.beginPath();
-                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                        ctx.fill();
-                    }
-                    ctx.fillStyle = p.color;
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.size * 0.9, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.globalAlpha = 1;
-                }
-                if (particles.length > 0)
-                    requestAnimationFrame(animateParticles);
-            }
-
-            function ignite() {
-                if (clicked) return;
-                clicked = true;
-                candleCard.classList.add("lit");
-                message.classList.add("show");
-
-                flameSound.currentTime = 0;
-                flameSound.play().catch(() => {});
-
-                // Get flame position relative to canvas
-                const flameEl = document.getElementById("flameGroup");
-                const flameRect = flameEl.getBoundingClientRect();
-                const canvasRect = particleCanvas.getBoundingClientRect();
-                const spawnX =
-                    flameRect.left + flameRect.width / 2 - canvasRect.left;
-                const spawnY =
-                    flameRect.top + flameRect.height / 2 - canvasRect.top;
-
-                spawnParticles(spawnX, spawnY);
-                requestAnimationFrame(animateParticles);
-
-                setTimeout(() => {
-                    document.body.classList.add("page-fade");
-                    setTimeout(() => {
-                        window.location.href = "home.html";
-                    }, 600);
-                }, 5000);
-            }
-
-            candleWrap.addEventListener("keydown", (e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    ignite();
-                }
-            });
-            candleWrap.addEventListener("click", ignite);
-
-            window.addEventListener("load", () => {
-                setupCanvas();
-                setTimeout(() => loading.classList.add("hidden"), 250);
-            });
-
-            window.addEventListener("resize", setupCanvas);
-        </script>
+        <!-- Scripts -->
+        <script src="js/jquery.js"></script>
+        <script src="js/index.js"></script>
     </body>
 </html>
