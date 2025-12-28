@@ -4,11 +4,14 @@
     box-sizing: border-box;
 }
 
+
 :root {
     --bg-1: #e0f7fa;
     --bg-2: #b3e5fc;
+    --bg-card: #fdb5ce;
     --accent: #01579b;
     --card-bg: rgba(255, 255, 255, 0.9);
+    --glass-bg: rgba(213, 243, 249, 0.05);
 }
 
 body {
@@ -215,8 +218,8 @@ body::before {
 
 /* ========== MUSIC SECTION ========== */
 .music-section {
-    background: var(--card-bg);
-    backdrop-filter: blur(10px);
+    background: var(--glass-bg);
+    backdrop-filter: blur(13px);
     padding: 2rem;
     border-radius: 20px;
     text-align: center;
