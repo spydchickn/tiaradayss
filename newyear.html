@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy New Year 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="yearstyle.css">
+</head>
+<body>
+
+    <!-- Audio (Optional, requires user interaction policy usually, but we implement structure) -->
+    <audio id="bgm" src="asset/sound/Tabola Bale - Silet Open Up (Lyrics).mp3"></audio>
+
+    <div id="opening-scene" class="scene">
+        <canvas id="fireworks"></canvas>
+        <div id="photo-container"></div>
+        <div id="countdown"></div>
+        <h1 id="main-title">HAPPY<br>NEW YEAR<br>2026</h1>
+    </div>
+
+    <div id="letter-scene" class="scene">
+        <div class="envelope-container" id="greeting-card">
+            <div class="envelope">
+                <div class="envelope-back"></div>
+                <div class="letter">
+                    <div class="letter-content">
+                        <div class="card-header">
+                            Selamat Tahun Baru 2026
+                        </div>
+                        <div class="card-body">
+                            <p>Kepada yang teristimewa,</p>
+                            <br>
+                            <p>Semoga tahun ini membawa cahaya baru, harapan yang tak terpadamkan, dan kebahagiaan yang melimpah.</p>
+                            <br>
+                            <p>Mari kita ukir cerita indah lainnya di halaman 2026.</p>
+                        </div>
+                        <div class="signature">
+                            Salam hangat,<br>
+                            [Nama Anda]
+                        </div>
+                    </div>
+                </div>
+                <div class="envelope-front"></div>
+                <div class="envelope-top"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="year.js"></script>
+</body>
+</html>
