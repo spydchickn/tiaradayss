@@ -658,3 +658,13 @@ body::before {
 .akhir {
     width: 100%;
 }
+
+video {
+    display: block;
+    margin: 0 auto;      /* center horizontal */
+    max-width: 100%;     /* mengikuti lebar device */
+    height: auto;        /* proporsi tetap */
+    border-radius: 12px; /* opsional, biar smooth */
+}
+
+

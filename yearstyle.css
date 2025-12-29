@@ -1,10 +1,10 @@
 :root {
-    --gold: #FFD700;
-    --red: #FF4136;
-    --blue: #0074D9;
+    --gold: #ffd700;
+    --red: #ff4136;
+    --blue: #0074d9;
     --dark-bg: #0a0a0a;
     --envelope-bg: #ffe4e1; /* MistyRose */
-    --envelope-shadow: rgba(0,0,0,0.2);
+    --envelope-shadow: rgba(0, 0, 0, 0.2);
 }
 
 * {
@@ -13,8 +13,14 @@
     box-sizing: border-box;
 }
 
+a {
+    text-decoration: none;
+    color: #0f0c29;
+    font-size: 12px;
+}
+
 body {
-    font-family: 'Outfit', sans-serif;
+    font-family: "Outfit", sans-serif;
     overflow: hidden;
     background-color: var(--dark-bg);
     color: white;
@@ -63,21 +69,30 @@ body {
 }
 
 @keyframes pulse {
-    0% { transform: scale(0.5); opacity: 0; }
-    50% { transform: scale(1.2); opacity: 1; }
-    100% { transform: scale(1); opacity: 0; }
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
 }
 
 #main-title {
     position: absolute;
-    font-family: 'Playfair Display', serif;
+    font-family: "Playfair Display", serif;
     font-size: 5rem;
     text-align: center;
     line-height: 1.2;
     opacity: 0;
     z-index: 20;
     /* text-shadow: 0 0 30px rgba(255, 255, 255, 0.3); */
-    text-shadow: 4px 4px 2px rgba(0,0,0,0.6);
+    text-shadow: 4px 4px 2px rgba(0, 0, 0, 0.6);
     background: linear-gradient(to right, #fff, #fff);
     -webkit-background-clip: text;
 }
@@ -87,8 +102,14 @@ body {
 }
 
 @keyframes scaleReveal {
-    0% { transform: scale(0); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 /* Fireworks */
@@ -127,7 +148,7 @@ canvas {
     height: 100%;
     background: #ffc0cb; /* Pinker back */
     border-radius: 5px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .envelope-front {
@@ -140,14 +161,14 @@ canvas {
     border-width: 0 150px 120px 150px; /* Triangle shape */
     border-color: transparent transparent #ffe4e1 transparent; /* MistyRose Front */
     z-index: 3;
-    border-radius: 0 0 5px 5px; 
-    filter: drop-shadow(0 -2px 5px rgba(0,0,0,0.05));
+    border-radius: 0 0 5px 5px;
+    filter: drop-shadow(0 -2px 5px rgba(0, 0, 0, 0.05));
 }
 
 .envelope-front::after {
     /* Right flap illusion or border details could go here, 
        but CSS borders are simplest for "cartoon" look */
-    content: '';
+    content: "";
 }
 
 /* Top Flap */
@@ -176,7 +197,7 @@ canvas {
     background: #fff;
     border-radius: 10px;
     padding: 20px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     z-index: 2; /* Behind front, ahead of back */
     transition: transform 1s ease 1s; /* Box slides up */
     display: flex;
@@ -188,7 +209,7 @@ canvas {
 
 /* Styling content inside the letter (to match image vibe) */
 .card-header {
-    font-family: 'Playfair Display', serif;
+    font-family: "Playfair Display", serif;
     font-size: 1.2rem; /* Smaller to fit */
     color: #333;
     margin-bottom: 10px;
@@ -206,14 +227,17 @@ canvas {
     overflow-y: auto; /* Scroll if too long */
 }
 
-.card-body::-webkit-scrollbar { width: 0; }
+.card-body::-webkit-scrollbar {
+    width: 0;
+}
 
 .signature {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
+    font-family: "Playfair Display", serif;
+    /* font-style: italic; */
     font-size: 0.9rem;
     color: var(--blue);
     margin-top: 5px;
+    font-weight: bold;
 }
 
 /* Animation Classes */
@@ -232,7 +256,7 @@ canvas {
     transform: translateX(-50%) translateY(-60px); /* Slides up */
     z-index: 5; /* Moves in front of everything once out */
     height: auto; /* Expand if needed */
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 /* Photo Animation */
@@ -253,7 +277,7 @@ canvas {
     height: 140px;
     background: white;
     padding: 10px 10px 30px 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     transform: rotate(var(--rotation)) scale(0); /* Start hidden */
     opacity: 0;
     animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; /* Pop effect */
@@ -290,10 +314,17 @@ canvas {
 }
 
 @media (max-width: 768px) {
-    .floating-photo { width: 80px; height: 100px; }
+    .floating-photo {
+        width: 80px;
+        height: 100px;
+    }
 }
 
 @media (max-width: 768px) {
-    #countdown { font-size: 8rem; }
-    #main-title { font-size: 3rem; }
+    #countdown {
+        font-size: 8rem;
+    }
+    #main-title {
+        font-size: 3rem;
+    }
 }
