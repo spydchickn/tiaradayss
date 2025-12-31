@@ -10,10 +10,398 @@
             href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
             rel="stylesheet"
         />
-        <link rel="stylesheet" href="yearstyle.css" />
+        <style>
+            :root {
+                --gold: #ffd700;
+                --red: #ff4136;
+                --blue: #0074d9;
+                --dark-bg: #0a0a0a;
+                --envelope-bg: #ffe4e1;
+                --envelope-shadow: rgba(0, 0, 0, 0.2);
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            a {
+                text-decoration: none;
+                color: #0f0c29;
+                font-size: 12px;
+            }
+
+            body {
+                font-family: "Outfit", sans-serif;
+                overflow: hidden;
+                background-color: var(--dark-bg);
+                color: white;
+                height: 100vh;
+            }
+
+            .scene {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                transition: opacity 1s ease-in-out;
+            }
+
+            #opening-scene {
+                z-index: 10;
+                background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            }
+
+            #letter-scene {
+                z-index: 5;
+                opacity: 0;
+                pointer-events: none;
+                background: radial-gradient(circle at center, #2b32b2, #1488cc);
+            }
+
+            #countdown {
+                position: relative;
+                z-index: 100;
+                font-size: 15rem;
+                font-weight: 700;
+                color: var(--gold);
+                text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            .count-animate {
+                animation: pulse 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            }
+
+            @keyframes pulse {
+                0% {
+                    transform: scale(0.5);
+                    opacity: 0;
+                }
+                50% {
+                    transform: scale(1.2);
+                    opacity: 1;
+                }
+                100% {
+                    transform: scale(1);
+                    opacity: 0;
+                }
+            }
+
+            #main-title {
+                position: absolute;
+                font-family: "Playfair Display", serif;
+                font-size: 5rem;
+                text-align: center;
+                line-height: 1.2;
+                opacity: 0;
+                z-index: 20;
+                text-shadow: 4px 4px 2px rgba(0, 0, 0, 0.6);
+                background: linear-gradient(to right, #fff, #fff);
+                -webkit-background-clip: text;
+            }
+
+            .title-reveal {
+                animation: scaleReveal 1.5s cubic-bezier(0.34, 1.56, 0.64, 1)
+                    forwards;
+            }
+
+            @keyframes scaleReveal {
+                0% {
+                    transform: scale(0);
+                    opacity: 0;
+                }
+                100% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+            }
+
+            canvas {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 15;
+            }
+
+            .envelope-container {
+                position: relative;
+                width: 300px;
+                height: 200px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                transform: translateY(50px);
+                opacity: 0;
+                transition: all 1.5s ease-out;
+            }
+
+            .envelope {
+                position: relative;
+                width: 300px;
+                height: 200px;
+            }
+
+            .envelope-back {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background: #ffc0cb;
+                border-radius: 5px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            }
+
+            .envelope-front {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: 0 150px 120px 150px;
+                border-color: transparent transparent #ffe4e1 transparent;
+                z-index: 3;
+                border-radius: 0 0 5px 5px;
+                filter: drop-shadow(0 -2px 5px rgba(0, 0, 0, 0.05));
+            }
+
+            .envelope-top {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: 110px 150px 0 150px;
+                border-color: #ffb6c1 transparent transparent transparent;
+                z-index: 4;
+                transform-origin: top;
+                transition: transform 0.6s ease 0.5s, z-index 0.2s 0.5s;
+                border-radius: 5px 5px 0 0;
+            }
+
+            .letter {
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 90%;
+                height: 90%;
+                background: #fff;
+                border-radius: 10px;
+                padding: 20px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                z-index: 2;
+                transition: transform 1s ease 1s;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                border: 2px solid #333;
+            }
+
+            .card-header {
+                font-family: "Playfair Display", serif;
+                font-size: 1.2rem;
+                color: #333;
+                margin-bottom: 10px;
+                border-bottom: 2px solid #ff4136;
+                padding-bottom: 5px;
+                width: 100%;
+                text-align: center;
+            }
+
+            .card-body {
+                font-size: 0.8rem;
+                color: #555;
+                text-align: center;
+                flex-grow: 1;
+                overflow-y: auto;
+            }
+
+            .card-body::-webkit-scrollbar {
+                width: 0;
+            }
+
+            .signature {
+                font-family: "Playfair Display", serif;
+                font-size: 0.9rem;
+                color: var(--blue);
+                margin-top: 5px;
+                font-weight: bold;
+            }
+
+            .show-card {
+                transform: translateY(60px) scale(1.2);
+                opacity: 1;
+            }
+
+            .envelope.open .envelope-top {
+                transform: rotateX(180deg);
+                z-index: 1;
+            }
+
+            .envelope.open .letter {
+                transform: translateX(-50%) translateY(-60px);
+                z-index: 5;
+                height: auto;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            }
+
+            #photo-container {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 12;
+                overflow: hidden;
+            }
+
+            .floating-photo {
+                position: absolute;
+                width: 120px;
+                height: 140px;
+                background: white;
+                padding: 10px 10px 30px 10px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+                transform: rotate(var(--rotation)) scale(0);
+                opacity: 0;
+                animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)
+                    forwards;
+            }
+
+            .photo-inner {
+                width: 100%;
+                height: 100%;
+                background: #333;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+                color: #fff;
+                font-size: 0.8rem;
+                font-weight: bold;
+            }
+
+            .photo-inner img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            @keyframes popIn {
+                0% {
+                    transform: rotate(var(--rotation)) scale(0);
+                    opacity: 0;
+                }
+                100% {
+                    transform: rotate(var(--rotation)) scale(1);
+                    opacity: 1;
+                }
+            }
+
+            /* Lock Screen Styles */
+            #nyeLockOverlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(
+                    135deg,
+                    #1a1a2e 0%,
+                    #16213e 50%,
+                    #0f3460 100%
+                );
+                z-index: 999999;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                color: white;
+                font-family: "Outfit", Arial, sans-serif;
+            }
+
+            #nyeLockOverlay h1 {
+                font-size: 3.5em;
+                margin-bottom: 10px;
+                font-weight: 600;
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            }
+
+            #nyeLockOverlay p {
+                font-size: 1.3em;
+                margin-bottom: 50px;
+                opacity: 0.9;
+            }
+
+            #lockCountdown {
+                font-size: 3em;
+                font-weight: 600;
+            }
+
+            .lock-timer-box {
+                font-size: 1.5em;
+                background: rgba(255, 255, 255, 0.1);
+                padding: 20px;
+                border-radius: 15px;
+                backdrop-filter: blur(10px);
+                min-width: 100px;
+                text-align: center;
+            }
+
+            .lock-timer-label {
+                font-size: 0.4em;
+                margin-top: 10px;
+                opacity: 0.8;
+            }
+
+            @media (max-width: 768px) {
+                .floating-photo {
+                    width: 80px;
+                    height: 100px;
+                }
+                #countdown {
+                    font-size: 8rem;
+                }
+                #main-title {
+                    font-size: 3rem;
+                }
+                #nyeLockOverlay h1 {
+                    font-size: 2em;
+                }
+                #lockCountdown {
+                    font-size: 2em;
+                }
+            }
+        </style>
     </head>
     <body>
-        <!-- Audio (Optional, requires user interaction policy usually, but we implement structure) -->
+        <!-- Lock Screen (akan dihapus saat tahun baru) -->
+        <div id="nyeLockOverlay">
+            <div style="text-align: center; padding: 20px">
+                <h1>🎆 Tahun Baru 2026 🎆</h1>
+                <p>baru bisa buka nantii..😭</p>
+                <div id="lockCountdown">
+                    <div id="lockCountdownTime">Menghitung...</div>
+                </div>
+                <p style="font-size: 0.9em; margin-top: 50px; opacity: 0.6">
+                    luvv
+                </p>
+            </div>
+        </div>
+
         <audio
             id="bgm"
             src="asset/sound/Tabola Bale - Silet Open Up (Lyrics).mp3"
@@ -33,21 +421,17 @@
                     <div class="letter">
                         <div class="letter-content">
                             <div class="card-header">
-                                Selamat Tahun Baru 2026
+                                Selamat Tahun Baru <br> 2026 yaa!
                             </div>
                             <div class="card-body">
-                                <p>Kepada yang teristimewa🥰,</p>
+                                <p>To Special Person🥰, asikkk😊</p>
                                 <br />
                                 <p>
-                                    Semoga tahun ini membawa cahaya baru,
-                                    harapan yang tak terpadamkan, dan
-                                    kebahagiaan yang melimpah.
+                                    Semoga tahun ini membawa cahaya baruu,
+                                    kebahagiaan yang berlimpah. lebih baik lagi dari tahun-tahun sebelumnyaa, semakin didekatkann dengan tujuan dan dipermudahkan setiap langkah dan jalannyaa. Aamiin...
                                 </p>
                                 <br />
-                                <p>
-                                    Mari kita ukir cerita indah lainnya di
-                                    halaman 2026.
-                                </p>
+                               
                             </div>
                             <div class="signature">
                                 To Home,<br />
@@ -61,6 +445,344 @@
             </div>
         </div>
 
-        <script src="year.js"></script>
+        <script>
+            // Lock Screen Logic
+            (function () {
+                // Website unlock di 31 Desember 2025 jam 21:15 WIB
+                const targetDate = new Date("2025-12-31T22:11:00+07:00");
+                const lockOverlay = document.getElementById("nyeLockOverlay");
+                const countdownEl =
+                    document.getElementById("lockCountdownTime");
+
+                function updateLockCountdown() {
+                    const now = new Date();
+                    const diff = targetDate - now;
+
+                    if (diff <= 0) {
+                        unlockWebsite();
+                        return;
+                    }
+
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor(
+                        (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+                    );
+                    const minutes = Math.floor(
+                        (diff % (1000 * 60 * 60)) / (1000 * 60)
+                    );
+                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                    if (countdownEl) {
+                        countdownEl.innerHTML = `
+                <div style="display: flex; gap: 40px; justify-content: center; flex-wrap: wrap;">
+                    <div class="lock-timer-box">
+                        <div>${days}</div>
+                        <div class="lock-timer-label">Hari</div>
+                    </div>
+                    <div class="lock-timer-box">
+                        <div>${hours}</div>
+                        <div class="lock-timer-label">Jam</div>
+                    </div>
+                    <div class="lock-timer-box">
+                        <div>${minutes}</div>
+                        <div class="lock-timer-label">Menit</div>
+                    </div>
+                    <div class="lock-timer-box">
+                        <div>${seconds}</div>
+                        <div class="lock-timer-label">Detik</div>
+                    </div>
+                </div>
+            `;
+                    }
+
+                    setTimeout(updateLockCountdown, 1000);
+                }
+
+                function unlockWebsite() {
+                    if (lockOverlay) {
+                        lockOverlay.style.transition = "opacity 1s";
+                        lockOverlay.style.opacity = "0";
+                        setTimeout(() => {
+                            lockOverlay.remove();
+                            startMainAnimation(); // Mulai animasi utama
+                        }, 1000);
+                    }
+                }
+
+                // Cek apakah sudah waktunya
+                const now = new Date();
+                if (now >= targetDate) {
+                    if (lockOverlay) lockOverlay.remove();
+                    // Tunggu DOM ready baru jalankan animasi
+                    if (document.readyState === "loading") {
+                        document.addEventListener(
+                            "DOMContentLoaded",
+                            startMainAnimation
+                        );
+                    } else {
+                        startMainAnimation();
+                    }
+                } else {
+                    updateLockCountdown();
+                }
+            })();
+
+            // Main Animation Script (year.js)
+            let mainAnimationStarted = false;
+
+            function startMainAnimation() {
+                if (mainAnimationStarted) return;
+                mainAnimationStarted = true;
+
+                const COUNTDOWN_START = 3;
+                const COUNTDOWN_SPEED = 1000;
+                const SHOW_CARD_DELAY = 5000;
+
+                const countdownEl = document.getElementById("countdown");
+                const openingScene = document.getElementById("opening-scene");
+                const letterScene = document.getElementById("letter-scene");
+                const greetingCard = document.getElementById("greeting-card");
+                const mainTitle = document.getElementById("main-title");
+                const canvas = document.getElementById("fireworks");
+                const ctx = canvas.getContext("2d");
+                const photoContainer =
+                    document.getElementById("photo-container");
+
+                const MY_PHOTOS = [
+                    "asset/img/dede.jpeg",
+                    "asset/img/imutt.jpeg",
+                    "asset/img/LUVV/tiaracu.jpg",
+                    "asset/img/LUVV/tiara_main_img.jpg",
+                    "asset/img/school.jpeg",
+                    "asset/img/LUVV/1.jpg",
+                    "asset/img/LUVV/2.jpg",
+                    "asset/img/LUVV/3.jpg",
+                    "asset/img/LUVV/4.jpg",
+                    "asset/img/LUVV/5.jpg",
+                    "asset/img/LUVV/6.jpg",
+                    "asset/img/LUVV/7.jpg",
+                    "asset/img/LUVV/8.jpg",
+                    "asset/img/LUVV/9.jpg",
+                    "asset/img/LUVV/10.jpg",
+                    "asset/img/LUVV/11.jpg",
+                    "asset/img/LUVV/12.jpg",
+
+                ];
+
+                const PHOTO_COUNT = MY_PHOTOS.length;
+                let particles = [];
+                let fireworks = [];
+                let w, h;
+
+                function resizeCanvas() {
+                    w = canvas.width = window.innerWidth;
+                    h = canvas.height = window.innerHeight;
+                }
+                window.addEventListener("resize", resizeCanvas);
+                resizeCanvas();
+
+                function random(min, max) {
+                    return Math.random() * (max - min) + min;
+                }
+
+                class Firework {
+                    constructor(targetX, targetY) {
+                        this.x = w / 2;
+                        this.y = h;
+                        this.targetX = targetX;
+                        this.targetY = targetY;
+                        this.speed = 2;
+                        this.angle = Math.atan2(targetY - h, targetX - w / 2);
+                        this.vx = Math.cos(this.angle) * 5;
+                        this.vy = Math.sin(this.angle) * 5;
+                        this.alpha = 1;
+                        this.dead = false;
+                    }
+                    update() {
+                        this.x += this.vx;
+                        this.y += this.vy;
+                        if (this.y <= this.targetY) {
+                            this.dead = true;
+                            createParticles(this.x, this.y);
+                        }
+                    }
+                    draw() {
+                        ctx.save();
+                        ctx.globalAlpha = this.alpha;
+                        ctx.fillStyle = "#fff";
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.restore();
+                    }
+                }
+
+                class Particle {
+                    constructor(x, y, color) {
+                        this.x = x;
+                        this.y = y;
+                        this.angle = random(0, Math.PI * 2);
+                        this.speed = random(2, 5);
+                        this.vx = Math.cos(this.angle) * this.speed;
+                        this.vy = Math.sin(this.angle) * this.speed;
+                        this.friction = 0.95;
+                        this.gravity = 0.1;
+                        this.alpha = 1;
+                        this.decay = random(0.015, 0.03);
+                        this.color = color;
+                        this.dead = false;
+                    }
+                    update() {
+                        this.vx *= this.friction;
+                        this.vy *= this.friction;
+                        this.vy += this.gravity;
+                        this.x += this.vx;
+                        this.y += this.vy;
+                        this.alpha -= this.decay;
+                        if (this.alpha <= 0) this.dead = true;
+                    }
+                    draw() {
+                        ctx.save();
+                        ctx.globalAlpha = this.alpha;
+                        ctx.fillStyle = this.color;
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.restore();
+                    }
+                }
+
+                function createParticles(x, y) {
+                    const colors = [
+                        "#FFD700",
+                        "#FF4136",
+                        "#0074D9",
+                        "#00FFFF",
+                        "#FF00FF",
+                    ];
+                    const count = 50;
+                    for (let i = 0; i < count; i++) {
+                        const color =
+                            colors[Math.floor(random(0, colors.length))];
+                        particles.push(new Particle(x, y, color));
+                    }
+                }
+
+                function animateFireworks() {
+                    ctx.globalCompositeOperation = "destination-out";
+                    ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+                    ctx.fillRect(0, 0, w, h);
+                    ctx.globalCompositeOperation = "source-over";
+
+                    fireworks.forEach((fw, index) => {
+                        fw.update();
+                        fw.draw();
+                        if (fw.dead) fireworks.splice(index, 1);
+                    });
+
+                    particles.forEach((p, index) => {
+                        p.update();
+                        p.draw();
+                        if (p.dead) particles.splice(index, 1);
+                    });
+
+                    requestAnimationFrame(animateFireworks);
+                }
+
+                function launchRandomFirework() {
+                    const targetX = random(w * 0.1, w * 0.9);
+                    const targetY = random(h * 0.1, h * 0.5);
+                    fireworks.push(new Firework(targetX, targetY));
+                }
+
+                function spawnPhotos() {
+                    for (let i = 0; i < PHOTO_COUNT; i++) {
+                        setTimeout(() => {
+                            const photoDiv = document.createElement("div");
+                            photoDiv.className = "floating-photo";
+
+                            let topPos = random(10, 70);
+                            let leftPos = random(5, 90);
+
+                            if (
+                                topPos > 30 &&
+                                topPos < 70 &&
+                                leftPos > 20 &&
+                                leftPos < 80
+                            ) {
+                                if (Math.random() > 0.5)
+                                    topPos = random(10, 30);
+                                else topPos = random(70, 85);
+                            }
+
+                            const rotation = random(-15, 15);
+
+                            photoDiv.style.top = `${topPos}%`;
+                            photoDiv.style.left = `${leftPos}%`;
+                            photoDiv.style.setProperty(
+                                "--rotation",
+                                `${rotation}deg`
+                            );
+
+                            const imgUrl = MY_PHOTOS[i];
+
+                            photoDiv.innerHTML = `
+                    <div class="photo-inner">
+                        <img src="${imgUrl}" alt="Memory ${i + 1}">
+                    </div>
+                `;
+
+                            photoContainer.appendChild(photoDiv);
+                        }, i * 300);
+                    }
+                }
+
+                async function playSequence() {
+                    animateFireworks();
+
+                    for (let i = COUNTDOWN_START; i > 0; i--) {
+                        countdownEl.innerText = i;
+                        countdownEl.className = "";
+                        void countdownEl.offsetWidth;
+                        countdownEl.className = "count-animate";
+                        await new Promise((r) =>
+                            setTimeout(r, COUNTDOWN_SPEED)
+                        );
+                    }
+
+                    countdownEl.style.display = "none";
+                    mainTitle.classList.add("title-reveal");
+                    spawnPhotos();
+
+                    for (let i = 0; i < 5; i++) {
+                        setTimeout(launchRandomFirework, i * 300);
+                    }
+
+                    const fwInterval = setInterval(() => {
+                        if (openingScene.style.opacity === "0")
+                            clearInterval(fwInterval);
+                        else launchRandomFirework();
+                    }, 800);
+
+                    setTimeout(() => {
+                        openingScene.style.opacity = "0";
+                        openingScene.style.pointerEvents = "none";
+                        letterScene.style.opacity = "1";
+                        letterScene.style.pointerEvents = "auto";
+
+                        setTimeout(() => {
+                            greetingCard.classList.add("show-card");
+                            setTimeout(() => {
+                                document
+                                    .querySelector(".envelope")
+                                    .classList.add("open");
+                            }, 1000);
+                        }, 500);
+                    }, SHOW_CARD_DELAY);
+                }
+
+                playSequence();
+            }
+        </script>
     </body>
 </html>
